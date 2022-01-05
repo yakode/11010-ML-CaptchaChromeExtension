@@ -9,15 +9,26 @@ async function myFunction(){
 
 async function getCaptcha(){
     var cimg = document.getElementById("captcha_image").src;
-    var ccookie = document.cookie;
+    var ccookie = await getCookie('PHPSESSID');
     var ret = ""
     ret = await sendRequest(cimg, ccookie);
     return ret;
 }
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+
 async function sendRequest(_url, _cookie){
-    const url = "https://eeclass-captcha.herokuapp.com/test"
-    var data = {"url": "\"" + _url + "\"",
+    const url = "https://eeclass-captcha.herokuapp.com/captcha_pred"
+    var data = {"url":  _url,
                 "cookie": _cookie};
     var result = await fetch(url, {
         method:'POST',
@@ -29,6 +40,5 @@ async function sendRequest(_url, _cookie){
     var res = await result.json();
     var ret = ""
     ret = res.result;
-    console.log(ret)
     return ret; 
 }
