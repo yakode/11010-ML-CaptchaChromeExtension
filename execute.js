@@ -27,7 +27,11 @@ function getCookie(cname) {
 }
 
 async function sendRequest(_url, _cookie){
-    const url = "https://eeclass-captcha.herokuapp.com/captcha_pred"
+    const today = new Date();
+    const date = today.getDate();
+    var url = "";
+    if(date % 2 == 0) url = "https://eeclass-captcha.herokuapp.com/captcha_pred"
+    else url = "https://elearn-captcha.herokuapp.com/captcha_pred"
     var data = {"url":  _url,
                 "cookie": _cookie};
     var result = await fetch(url, {
