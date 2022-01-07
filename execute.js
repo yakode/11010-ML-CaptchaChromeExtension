@@ -28,10 +28,10 @@ function getCookie(cname) {
 
 async function sendRequest(_url, _cookie){
     const today = new Date();
-    const date = today.getDate();
+    const h = today.getUTCHours();
     var url = "";
-    if(date % 2 == 0) url = "https://eeclass-captcha.herokuapp.com/captcha_pred"
-    else url = "https://elearn-captcha.herokuapp.com/captcha_pred"
+    if(h < 12) url = "https://eeclass-captcha-server.herokuapp.com/captcha_predict"
+    else url = "https://elearn-captcha-server.herokuapp.com/captcha_predict"
     var data = {"url":  _url,
                 "cookie": _cookie};
     var result = await fetch(url, {
